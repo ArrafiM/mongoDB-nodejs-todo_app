@@ -7,17 +7,16 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var session = require('express-session');
 const mongoose = require('mongoose');
+const db = require('./config/keys').mongoURI;
 
-mongoose.connect('mongodb+srv://rafi:'+ 
-  process.env.MONGO_ATLAS_PASS +
-  '@todos-vgt9w.gcp.mongodb.net/todo_app?retryWrites=true&w=majority',
-  
+mongoose
+.connect(db,
   {
     useUnifiedTopology: true,
     useNewUrlParser: true
-  }
-  );
-
+  })
+.then(() => console.log("mongoDB Connected"))
+.catch((err) => console.log(err));
 
 var app = express();
 
