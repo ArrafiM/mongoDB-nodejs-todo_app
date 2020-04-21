@@ -1,26 +1,15 @@
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
-const mongoose = require('mongoose');
 const User = require('../models/users');
 
 module.exports = {
   model(req,res){
-    var id = req.params.id
-    User.findAll({
-      where:{ id:id },
-      attributes:['todos.id','todos.title'],
-      include: [{
-        model: Todo,
-        as: 'todos'
-      }],
-      order: [
-        ['createdAt', 'DESC'],
-      ],
-    })
-    .then((todos) => {
+  var id = req.params.id;
+    User.findById({_id:id}).populate("todos", " -__v")
+    .then((data) => {
       res.status(200).json({
       message:'Semua Data todos',
-      todos,
+      data,
      })
    })
     .catch((error) => { res.status(400).send(error); });
@@ -57,14 +46,7 @@ module.exports = {
   add(req, res) {
     var Password = req.body.password;
     bcrypt.hash(Password, saltRounds, function(err, hash){
-      const user = new User({
-        _id: new mongoose.Types.ObjectId(),
-        nama_depan: req.body.nama_depan,
-        nama_belakang: req.body.nama_belakang,
-        level:req.body.level,
-        email: req.body.email,
-        password:hash
-      });
+      const user = new User(req.body);
       user
       .save()
       .then(result =>{

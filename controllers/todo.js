@@ -1,8 +1,9 @@
-const mongoose = require('mongoose');
 const Todo = require('../models/todos');
+const User = require('../models/users');
 
 
 module.exports = {
+
 
   list(req, res) {
     return Todo
@@ -34,19 +35,22 @@ module.exports = {
   },
 
   add(req, res) {
-    const todo = new Todo({
-      _id: new mongoose.Types.ObjectId(),
-      title: req.body.title,
-      iduser: req.body.iduser
-    });
-    todo
-    .save()
-    .then(result =>{
-      res.json(result);
+
+    Todo.create(req.body)
+    .then(function(todo) {
+      
+      return User.findOneAndUpdate({ _id: req.body.iduser }, 
+        {$push: {todos: todo._id}}, { new: true }).populate("todos");
     })
-    .catch(err =>{
+    .then(function(todos) {
+      
+      res.json(todos);
+    })
+    .catch(function(err) {
+      
       res.json(err);
-    })
+    });
+
   },
 
   update(req, res) {

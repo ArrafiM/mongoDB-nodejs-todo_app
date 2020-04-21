@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
+const Schema= mongoose.Schema;
 
-const todosSchema = mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+const todosSchema = new Schema({
   title: String,
-  iduser:String
-});
+  iduser: {
+    type: String,
+    required: true
+  }
+})
 
-module.exports = mongoose.model('todos', todosSchema);
+const Todos = mongoose.model("todos", todosSchema);
+module.exports = Todos;

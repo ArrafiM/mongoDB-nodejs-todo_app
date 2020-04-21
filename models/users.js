@@ -1,12 +1,17 @@
 const mongoose = require('mongoose');
+const Schema= mongoose.Schema;
 
-const usersSchema = mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+const usersSchema = new Schema({
   nama_depan: String,
   nama_belakang:String,
   level: String,
   email: String,
-  password: String
-});
+  password: String,
+  todos:[{
+    type: Schema.Types.ObjectId,
+    ref: "todos"
+  }]
+})
 
-module.exports = mongoose.model('users', usersSchema);
+const Users = mongoose.model("users", usersSchema);
+module.exports = Users;

@@ -1,6 +1,6 @@
 const todo = require('./todo');
 const user = require('./user');
-// const login = require('./login');
+const login = require('./login');
 // const loginView = require('./loginView');
 // const dashboard = require('./dashboard');
 // const projectdepartment = require('./projectdepartment');
@@ -8,7 +8,7 @@ const user = require('./user');
 module.exports = {
     todo,
     user,
-    // login,
+    login,
     // loginView,
     // dashboard,
     // projectdepartment,

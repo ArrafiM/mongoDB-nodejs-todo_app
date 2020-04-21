@@ -3,7 +3,7 @@ var router = express.Router();
 
 const todoController = require('../controllers').todo;
 const userController = require('../controllers').user;
-// const loginController = require('../controllers').login;
+const loginController = require('../controllers').login;
 // const loginViews = require('../controllers').loginView;
 // const dashboardViews = require('../controllers').dashboard;
 
@@ -15,7 +15,7 @@ const {addUserValidation} = require('../validation/validation');
 const {addLoginValidation} = require('../validation/validation');
 
 /* Login API Router */
-// router.post('/api/login',addLoginValidation,loginController.Login);
+router.post('/api/login',addLoginValidation,loginController.Login);
 
 /* User API Router */
 router.get('/api/model/:id',userController.model);
@@ -26,7 +26,6 @@ router.put('/api/user/:id', addUserValidation,userController.update);
 router.delete('/api/user/:id', userController.delete);
 
 /* Todo API Router */
-
 router.get('/api/todos', todoController.list);
 router.get('/api/todo/:id', todoController.getById);
 router.post('/api/todos',addTodoValidation,todoController.add);
