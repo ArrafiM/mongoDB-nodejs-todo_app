@@ -23,7 +23,7 @@ module.exports ={
         		 .then((Todo) => {
                
                 res.json({ message:'Berhasil Login',Todo,email })
-
+                console.log(Todo);
              })
         		}else{
               res.json({ message:'Password Salah',})

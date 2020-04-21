@@ -85,18 +85,25 @@ module.exports = {
       .then(todo => {
         if (!todo) {
             res.status(404).send({
-            message: 'User Tidak Ditemukan',
+            message: 'Data Tidak Ditemukan',
           });
         }else{
         return Todo
           .remove({_id: id})
           .exec()
-          .then(() => {
-            res.json({
-              message:'Data Berhasil Dihapus',
-            })
+          .then(()=> {
+            return User.findOneAndUpdate({ _id: id }, 
+              {remove: {todos: id}}, { new: false }).populate("todos");
           })
-          .catch((err) => res.status(400).json({error:err}))  
+          .then(function(todos) {
+      
+            res.json({
+              message:"Data Berhasil Dihapus"
+            });
+          })
+          
+          .catch((err) => res.status(400).json({error:err}));
+               
         }   
       })
       .catch((error) => res.status(500).json({error: error}));

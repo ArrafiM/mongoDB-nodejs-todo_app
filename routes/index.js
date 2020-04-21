@@ -4,8 +4,8 @@ var router = express.Router();
 const todoController = require('../controllers').todo;
 const userController = require('../controllers').user;
 const loginController = require('../controllers').login;
-// const loginViews = require('../controllers').loginView;
-// const dashboardViews = require('../controllers').dashboard;
+const loginViews = require('../controllers').loginView;
+const dashboardViews = require('../controllers').dashboard;
 
 /* GET home page. */
 
@@ -33,31 +33,31 @@ router.put('/api/todo/:id', addTodoValidation,todoController.update);
 router.delete('/api/todo/:id', todoController.delete);
 
 /* Login, Register View Routes */
-// router.get('/',loginViews.get);
-// router.get('/login',loginViews.Login);
-// router.post('/login',loginViews.Login);
-// router.get('/logout',loginViews.logout);
-// router.get('/register',loginViews.register);
-// router.post('/register',loginViews.register);
-// // router.get('/dashboard',loginViews.home);
+router.get('/',loginViews.get);
+router.get('/login',loginViews.Login);
+router.post('/login',loginViews.Login);
+router.get('/logout',loginViews.logout);
+router.get('/register',loginViews.register);
+router.post('/register',loginViews.register);
+// router.get('/dashboard',loginViews.home);
 
 
-// /* Views on Dashboard Routes */
-// router.get('/dashboard',dashboardViews.home);
-// router.get('/dashboard/tambah',dashboardViews.add);
-// router.post('/dashboard/tambah',dashboardViews.add);
-// /* Edit Views Routes*/
-// router.get('/dashboard/update/:id',dashboardViews.edit);
-// router.post('/dashboard/update/:id',dashboardViews.edit);
+/* Views on Dashboard Routes */
+router.get('/dashboard',dashboardViews.home);
+router.get('/dashboard/tambah',dashboardViews.add);
+router.post('/dashboard/tambah',dashboardViews.add);
+/* Edit Views Routes*/
+router.get('/dashboard/update/:id',dashboardViews.edit);
+router.post('/dashboard/update/:id',dashboardViews.edit);
 
-// /* Hapus Views Routes*/
-// router.get('/dashboard/hapus',dashboardViews.hapus);
-// router.get('/dashboard/hapus/:id',dashboardViews.delete);
+/* Hapus Views Routes*/
+router.get('/dashboard/hapus',dashboardViews.hapus);
+router.get('/dashboard/hapus/:id',dashboardViews.delete);
 
-// /* Data Profile dan Edit */
-// router.get('/dashboard/profile',dashboardViews.profile);
-// router.get('/dashboard/profile/edit',dashboardViews.editProfile);
-// router.post('/dashboard/profile/update',dashboardViews.editProfile);
+/* Data Profile dan Edit */
+router.get('/dashboard/profile',dashboardViews.profile);
+router.get('/dashboard/profile/edit',dashboardViews.editProfile);
+router.post('/dashboard/profile/update',dashboardViews.editProfile);
 
 
 // router.get('/', function(req, res, next) {

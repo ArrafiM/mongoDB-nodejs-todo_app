@@ -31,22 +31,16 @@
 		<!-- <h1 class="text-center">To-do List App</h1> -->
 		<div class="todo">
 			<% for(var i =0 ; i < data.length; i++) { %>
-			 <% if(data[i].todos == null){ %>
-				<ul class="list">
-						
-				</ul>
-			 <% } else { %>
-					
+
 						<ul class="list">
 							<li><a><input id="check"type="checkbox"></a></li>
-								<li style="color: black;"><a><%=data[i].todos.title%></a></li>
+								<li style="color: black;"><a><%=data[i].title%></a></li>
 								<li style="float: right;">
-									<a href="dashboard/update/<%=data[i].todos.id%>">
+									<a href="dashboard/update/<%=data[i].id%>">
 										<img class="btn-kecil" src="/img/edit.png">
 									</a>
 								</li>
 						</ul>
-					<% } %>
 			 <%} %>
 			
 		</div>
