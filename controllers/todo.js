@@ -24,8 +24,9 @@ module.exports = {
     .exec()
     .then(result =>{
       if(!result){
-        res.status(404).json({message:'User tidak Ditemukan'});
+        res.status(404).json({message:'data tidak Ditemukan'});
       }else{
+        
         res.status(200).json({"Data Anda":result});
       };
     })
@@ -40,7 +41,7 @@ module.exports = {
     .then(function(todo) {
       
       return User.findOneAndUpdate({ _id: req.body.iduser }, 
-        {$push: {todos: todo._id}}, { new: true }).populate("todos");
+        {$push: {todos: todo._id}}, { new: true, useFindAndModify: false }).populate("todos");
     })
     .then(function(todos) {
       
@@ -86,20 +87,26 @@ module.exports = {
         if (!todo) {
             res.status(404).send({
             message: 'Data Tidak Ditemukan',
-          });
-        }else{
-        return Todo
-          .remove({_id: id})
-          .exec()
-          .then(()=> {
-            return User.findOneAndUpdate({ _id: id }, 
-              {remove: {todos: id}}, { new: false }).populate("todos");
           })
-          .then(function(todos) {
-      
-            res.json({
-              message:"Data Berhasil Dihapus"
-            });
+        }else{
+          var userId = todo.iduser;
+          console.log(userId)
+          
+        return Todo
+          .deleteOne({_id: id})
+          .exec() 
+          .then(function(todo) {
+            return User.findOneAndUpdate({_id:userId}, 
+              { $pull: { todos: id}},
+              { new: true, useFindAndModify:false },
+              function(error, doc) {
+                console.log('Error: ' + error);
+                console.log(JSON.stringify(doc));
+                res.json({
+                  message:"Data Berhasil Dihapus"
+                });
+              });
+            
           })
           
           .catch((err) => res.status(400).json({error:err}));
