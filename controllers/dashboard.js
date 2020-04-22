@@ -35,7 +35,7 @@ module.exports = {
       .then(function(todo) {
       
         return User.findOneAndUpdate({ _id: userId }, 
-          {$push: {todos: todo._id}}, { new: true }).populate("todos");
+          {$push: {todos: todo._id}}, { new: true, useFindAndModify: false }).populate("todos");
       })
       .then((data) => {
         res.redirect('/dashboard');
@@ -97,13 +97,32 @@ module.exports = {
   delete(req, res){
     var id = req.params.id;
     return Todo
-          .remove({_id: id})
-          .exec()
-          .then(() => {
-           res.redirect('/dashboard');
-         })
-          .catch((error) => res.status(400).send(error));
-     
+      .findById(id)
+      .then(todo => {
+        if (!todo) {
+            res.status(404).send({
+            message: 'Data Tidak Ditemukan',
+          })
+        }else{
+          var userId = todo.iduser;
+        return Todo
+          .deleteOne({_id: id})
+          .exec() 
+          .then(function(todo) {
+            return User.findOneAndUpdate({_id:userId}, 
+              { $pull: { todos: id}},
+              { new: true, useFindAndModify:false },
+              function(error, doc) {
+                console.log('Error: ' + error);
+                // console.log(JSON.stringify(doc));
+                res.redirect('/dashboard');
+              });
+            
+          })
+          .catch((err) => res.status(400).json({error:err}));      
+        }   
+      })
+      .catch((error) => res.status(500).json({error: error}));
   },
 
   profile(req,res){

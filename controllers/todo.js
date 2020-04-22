@@ -90,8 +90,6 @@ module.exports = {
           })
         }else{
           var userId = todo.iduser;
-          console.log(userId)
-          
         return Todo
           .deleteOne({_id: id})
           .exec() 
@@ -101,7 +99,7 @@ module.exports = {
               { new: true, useFindAndModify:false },
               function(error, doc) {
                 console.log('Error: ' + error);
-                console.log(JSON.stringify(doc));
+                // console.log(JSON.stringify(doc));
                 res.json({
                   message:"Data Berhasil Dihapus"
                 });
@@ -109,8 +107,7 @@ module.exports = {
             
           })
           
-          .catch((err) => res.status(400).json({error:err}));
-               
+          .catch((err) => res.status(400).json({error:err}));      
         }   
       })
       .catch((error) => res.status(500).json({error: error}));
